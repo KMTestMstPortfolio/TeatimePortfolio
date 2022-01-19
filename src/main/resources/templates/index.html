@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" >
+    <meta charset="UTF-8">
+    <title>紅茶レビュー</title>
+</head>
+<body>
+	<header>
+		<h1>
+			<a href="/">紅茶レビュー</a>
+		</h1>
+		<form th:action="@{/edit}" method="post">
+		<input type="submit" name="insert" value="新規投稿">
+	    </form>
+    </header>
+	<div id="contents">
+	  <div id="sub">
+	  	検索条件<p>
+	    <form method="post" th:action="@{/index}" th:object="${formModel}">
+		    <label>商品名</label><input type="text" name="shohin_mei" value="" maxlength='30'><p>
+		    <label>茶葉</label>
+		    <select name="chaba_id">
+	            <option value=""></option>
+	            <option
+	                th:each="chaba : ${chabaList}"
+	                th:value="${chaba.chaba_id}"
+	                th:text="${chaba.chaba_mei}"
+	                th:selected="${chaba.chaba_id == selectedValue}">
+	            </option>
+	        </select><p>
+	        <label>購入店</label><input type="text" name="store" value="" maxlength='30'><p>
+		    <label>キーワード</label><input type="text" name="shohin_naiyou" value="" maxlength='30'><p>
+		    <input type="checkbox" name="komoku1" checked="checked" value="1"/>ギフト向き
+		    <input type="checkbox" name="komoku2" checked="checked" value="1"/>コスパ重視
+		    <input type="checkbox" name="komoku3" checked="checked" value="1"/>個性派<p>
+		    <input type="submit" value="検索">
+	    </form>
+	  </div>
+		<div id="main">
+	      <table>
+	        <tr th:each="reviewL : ${reviewList}">
+	            <td>
+	            <p th:text="${reviewL.shohin_mei}"></p>
+	            <input type="hidden" th:value="${reviewL.torokubi}">
+	            <p th:text="'カテゴリ：'+${reviewL.chaba_mei}"></p>
+	            <p th:text="'購入店：'+${reviewL.store}"></p>
+	            <p>
+	            <th:block th:if="${reviewL.komoku1}">
+					<img src="/image/komoku1_img.gif">
+				</th:block>
+				<th:block th:if="${reviewL.komoku2}">
+					<img src="/image/komoku2_img.gif">
+				</th:block>
+				<th:block th:if="${reviewL.komoku3}">
+					<img src="/image/komoku3_img.gif">
+				</th:block>
+	            </p>
+	            <p>
+	            <span th:text="'登録日：' + ${#temporals.format(reviewL.torokubi, 'yyyy/MM/dd')}"></span>
+	            <span th:text="' 最終更新日：' + ${#temporals.format(reviewL.koshinbi, 'yyyy/MM/dd')}"></span>
+	            </p>
+	            </td>
+	            <td>
+	                <form th:action="@{/detail}" method="post" th:object="${detailFormModel}">
+	                    <input type="submit" name="detail" value="詳細">
+	                    <input type="hidden" name="review_no" th:value="${reviewL.review_no}">
+	                </form>
+
+	            </td>
+	        </tr>
+	    </table>
+	  </div>
+	</div>
+</body>
+</html>

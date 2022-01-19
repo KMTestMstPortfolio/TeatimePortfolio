@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" >
+    <meta charset="UTF-8">
+    <title>紅茶レビュー</title>
+</head>
+<body>
+	<header>
+		<h1>
+			<a href="/">紅茶レビュー</a>
+		</h1>
+    </header>
+    <form method="post" th:action="@{/edit}" th:object="${updFormModel}">
+    	<input type="hidden" name="review_no" th:value="${detailData.review_no}">
+        <p>
+        <span th:text="'登録日：' + ${#temporals.format(detailData.torokubi, 'yyyy/MM/dd')}"></span>
+        <span th:text="' 更新日：' + ${#temporals.format(detailData.koshinbi, 'yyyy/MM/dd')}"></span>
+        </p>
+	    <p th:text="'商品名：' + ${detailData.shohin_mei}"></p>
+	    <p th:text="'カテゴリ：' + ${detailData.chaba_mei}"></p>
+	    <p th:text="'購入店：' + ${detailData.store}"></p>
+	    <p th:text="'商品内容：' + ${detailData.shohin_naiyou}"></p>
+	    <p th:text="'感想：' + ${detailData.kansou_naiyou}"></p>
+	            <p>
+	            <th:block th:if="${detailData.komoku1}">
+					<img src="/image/komoku1_img.gif">
+				</th:block>
+				<th:block th:if="${detailData.komoku2}">
+					<img src="/image/komoku2_img.gif">
+				</th:block>
+				<th:block th:if="${detailData.komoku3}">
+					<img src="/image/komoku3_img.gif">
+				</th:block>
+	            </p>
+	    <input type="submit" name="update" value="更新する">
+	    <input type="submit" name="delete" value="削除する">
+    </form>
+    <input type="button" value="戻る" onClick="history.back()">
+</body>
+</html>

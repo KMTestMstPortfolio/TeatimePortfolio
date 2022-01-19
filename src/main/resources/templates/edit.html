@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" >
+    <meta charset="UTF-8">
+    <title>紅茶レビュー</title>
+</head>
+<body>
+	<header>
+		<h1>
+			<a href="/">紅茶レビュー</a>
+		</h1>
+    </header>
+    <form method="post" th:action="@{/edit/update}" th:object="${updFormModel}">
+    	<input type="hidden" name="review_no" th:value="${updateData.review_no}">
+	    <p><label>商品名：</label><input type="text" name="shohin_mei" th:value="${updateData.shohin_mei}" maxlength='30'>
+	    <p><label>茶葉：</label>
+	    <select>
+            <option
+                th:each="chaba : ${chabaList}"
+                th:value="${chaba.chaba_id}"
+                th:text="${chaba.chaba_mei}"
+                th:selected="${chaba.chaba_id == selectedChabaID}">
+            </option>
+        </select></p>
+        <p><label>購入店：</label><input type="text" name="store" th:value="${updateData.store}" maxlength='30'></p>
+        <p><label>商品内容：</label><input type="text" name="shohin_naiyou" th:value="${updateData.shohin_naiyou}" maxlength='300'></p>
+	    <p><label>感想内容：</label><input type="text" name="kansou_naiyou" th:value="${updateData.kansou_naiyou}" maxlength='300'></p>
+	    <input type="checkbox" name="komoku1" th:checked="${updateData.komoku1}">ギフト向け
+	    <input type="checkbox" name="komoku2" th:checked="${updateData.komoku2}">コスパ重視
+	    <input type="checkbox" name="komoku3" th:checked="${updateData.komoku3}">個性派<p>
+	    <input type="submit" name="update" value="登録する">
+    </form>
+    <input type="button" value="戻る" onClick="history.back()">
+</body>
+</html>
